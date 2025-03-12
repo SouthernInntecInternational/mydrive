@@ -1,0 +1,23 @@
+name: Backup Files
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create backup
+        run: |
+          tar -czf backup.tar.gz ./files
+          echo "Backup created successfully"
+
+      - name: Upload backup
+        uses: actions/upload-artifact@v2
+        with:
+          name: backup
+          path: backup.tar.gz
